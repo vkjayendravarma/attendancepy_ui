@@ -4,10 +4,40 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title ">Simple Table</h4>
-                        <p class="card-category"> Here is a subtitle for this table</p>
+                        <h4 class="card-title ">Attendance View</h4>
+                        <p class="card-category"> Select date and session to view attendance</p>
+                        
                     </div>
                     <div class="card-body">
+                        <form action="">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field >
+                                        <mat-label >Select date</mat-label>
+                                        <input class="mat_datepicker" matInput [matDatepicker]="myDatepicker" disabled required>
+                                        <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #myDatepicker disabled="false"></mat-datepicker>
+                                      </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field >
+                                        <mat-label>Select session</mat-label>
+                                        <mat-select>
+                                          <mat-option value="1">1</mat-option>
+                                          <mat-option value="2">2</mat-option>
+                                          <mat-option value="3">3</mat-option>
+                                          <mat-option value="4">4</mat-option>
+                                          <mat-option value="5">5</mat-option>
+                                          <mat-option value="6">6</mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                </div>
+                                <div class="col-md-2">
+                                    <button mat-raised-button type="submit" class="btn btn-primary pull-right">Get Data</button>
+                                </div>
+                            </div>
+                        </form>
+                         
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class=" text-primary">

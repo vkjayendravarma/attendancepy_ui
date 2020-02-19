@@ -7,7 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TypographyComponent implements OnInit {
 
-  constructor() { }
+  url = 'https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg'
+
+  constructor() { 
+    console.log(this.url);
+    
+  }
 
   ngOnInit() {
   }
