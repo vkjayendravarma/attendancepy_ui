@@ -12,13 +12,15 @@ import {MatNativeDateModule} from '@angular/material/core';
 
 
 
+
 import {
   MatButtonModule,
   MatInputModule,
   MatRippleModule,
   MatFormFieldModule,
   MatTooltipModule,
-  MatSelectModule
+  MatSelectModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 @NgModule({
   imports: [
@@ -34,6 +36,7 @@ import {
     MatTooltipModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule
   ],
   declarations: [
     DashboardComponent,

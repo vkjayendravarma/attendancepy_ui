@@ -9,20 +9,20 @@
                         
                     </div>
                     <div class="card-body">
-                        <form action="">
+                        <form (submit)="getAddendance(date.value, session.value)" novalidate >
                             <div class="row">
                                 <div class="col-md-4">
                                     <mat-form-field >
                                         <mat-label >Select date</mat-label>
-                                        <input class="mat_datepicker" matInput [matDatepicker]="myDatepicker" disabled required>
-                                        <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                                        <input class="mat_datepicker" #date matInput [matDatepicker]="myDatepicker" disabled required>
+                                        <mat-datepicker-toggle matSuffix [for]="myDatepicker" ></mat-datepicker-toggle>
                                         <mat-datepicker #myDatepicker disabled="false"></mat-datepicker>
                                       </mat-form-field>
                                 </div>
                                 <div class="col-md-4">
                                     <mat-form-field >
-                                        <mat-label>Select session</mat-label>
-                                        <mat-select>
+                                        <mat-label >Select session</mat-label>
+                                        <mat-select #session>
                                           <mat-option value="1">1</mat-option>
                                           <mat-option value="2">2</mat-option>
                                           <mat-option value="3">3</mat-option>
@@ -32,11 +32,19 @@
                                         </mat-select>
                                       </mat-form-field>
                                 </div>
-                                <div class="col-md-2">
-                                    <button mat-raised-button type="submit" class="btn btn-primary pull-right">Get Data</button>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button mat-raised-button type="submit" class="btn btn-primary pull-right">Get Data</button>  
+                                        </div>
+                                        <div class="col-md-6">
+                                            <mat-spinner mode="indeterminate" *ngIf="loading" diameter="45"></mat-spinner>
+                                        </div>
+                                    </div>                                                              
                                 </div>
                             </div>
                         </form>
+                        
                          
                         <div class="table-responsive">
                             <table class="table">
@@ -58,8 +66,14 @@
                                     </th>
                                     
                                 </thead>
-                                <tbody>
-                                    
+                                <tbody *ngFor="let record of records">
+                                
+                                        <td> {{record.ID}} </td>
+                                        <td> {{record.name}} </td>
+                                        <td> {{date.value}} </td>
+                                        <td> {{session.value}} </td>
+                                        <td> {{record.PorA}} </td>
+                                                                        
                                 </tbody>
                             </table>
                         </div>

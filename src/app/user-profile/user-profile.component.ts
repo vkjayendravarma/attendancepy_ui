@@ -88,7 +88,7 @@ export class UserProfileComponent implements OnInit {
     formdata.append('userId', id);
     formdata.append('userName', name);
     formdata.append('force_override', this.override)
-    this.http.postUrl(formdata).subscribe((res) => {
+    this.http.postMethod(formdata,'newuser').subscribe((res) => {
       console.log(res);      
       if(res.err){
         let force_override = window.confirm("UserID already exists. Do you want to override");

@@ -11,10 +11,9 @@ export class HttpServiceService {
 
   }
 
-  postUrl(userData:any): Observable<any> {
+  postMethod(userData:any,to:string): Observable<any> {
     console.log("post init");
-    return this.http.post('http://localhost:8080/newuser', userData)
+    return this.http.post(`http://localhost:8080/${to}`, userData)
   }
-
 
 }
