@@ -10,13 +10,13 @@
                   <div class="card-body">
                       <form [formGroup]="userData" (ngSubmit)="onSubmit(userID.value, userName.value)">
                           <div class="row">
-                              <!-- <div class="col-md-12 custom12">
+                              <div class="col-md-12 custom12">
                                 <h4>Choose User Image:</h4>
                                 <div class="userImgUploader">
                                   <img class="uploadimgview card-avatar"  src={{url}} alt="your image" />
-                                  <input type="file" class="uploadimgSelect" formControlName="userImg" accept="image/jpeg, image/png, image/jpg" (change)="onSelectFile($event)" required >                                  
+                                  <input type="file" class="uploadimgSelect" id="profileImg" accept="image/jpeg, image/png, image/jpg" (change)="onSelectFile($event)" required  >                                  
                                 </div>                                
-                              </div> -->
+                              </div>
                               <div class="col-md-12">
                                 <mat-form-field >
                                   <mat-label>Enter new user ID</mat-label>

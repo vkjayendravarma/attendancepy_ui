@@ -10,5 +10,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'create-profile',   component: UserProfileComponent },
     { path: 'unidentified',     component: TableListComponent },
     { path: 'typography',     component: TypographyComponent },
+    {path: '**', component:DashboardComponent}
     
 ];

@@ -1,6 +1,7 @@
 import {  Component,  OnInit, Input, ChangeDetectorRef} from '@angular/core';
 import {  FormControl,  Validators, FormGroup, FormBuilder} from '@angular/forms';
 import { HttpServiceService } from 'app/services/http-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -9,35 +10,47 @@ import { HttpServiceService } from 'app/services/http-service.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  url= './assets/new_img/person.png'
+  url:any
   userData: FormGroup
 
   userId
   userName
+  selectedfile
+  intruder
+
+  override
 
   @Input() current_url 
+  @Input() intruderID
   
 
   constructor(private fb: FormBuilder,
-    private cd: ChangeDetectorRef, private http: HttpServiceService) {
+    private cd: ChangeDetectorRef, private http: HttpServiceService, private router: Router) {
 
   }
 
   ngOnInit() {
-    if(this.current_url)
+    this.url =  './assets/new_img/person.png'
+    this.override = "false"
+    if(this.current_url){
       this.url = this.current_url
-
-      this.userData = this.fb.group({
+      this.intruder = this.intruderID
+    }
+      
+    this.userData = this.fb.group({
         userImg: [''],
         userID: [''],
-        userName: ['']
-      });
+        userName: [''],
+        override: ['false']
+    });
+
   }
+
 
   onSelectFile(event) { // called each time file input changes
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
-      let selectedfile = event.target.files[0];
+      this.selectedfile = event.target.files[0];
 
       reader.readAsDataURL(event.target.files[0]); // read file as data url
 
@@ -45,7 +58,7 @@ export class UserProfileComponent implements OnInit {
         this.url = reader.result;
       }
 
-      this.userData.get('userImg').setValue(selectedfile);
+      this.userData.get('userImg').setValue(this.selectedfile);
 
       
     }
@@ -62,25 +75,33 @@ export class UserProfileComponent implements OnInit {
       '';
   }
 
-
+  async reload(url: string): Promise<boolean> {
+    await this.router.navigateByUrl('#', { skipLocationChange: true });
+    return this.router.navigateByUrl(url);
+  }
 
 
  
   onSubmit(id, name) {
     let formdata = new FormData()
-    // formdata.append('userImg', this.userData.get('userImg').value);
+    formdata.append('userImg', this.userData.get('userImg').value);
     formdata.append('userId', id);
     formdata.append('userName', name);
-
-    // let user = {
-    //   "userImg": this.selectedfile,
-    //   "userID" : id,
-    //   "userName": name
-    // }
-    // console.log(user.userImg);
-
-    this.http.postUrl(formdata).subscribe((data) => console.log(data))    
-    
+    formdata.append('force_override', this.override)
+    this.http.postUrl(formdata).subscribe((res) => {
+      console.log(res);      
+      if(res.err){
+        let force_override = window.confirm("UserID already exists. Do you want to override");
+        if(force_override){
+          this.override = "true"  
+          this.onSubmit(id, name) 
+        }                      
+      }
+      else{
+        window.alert(`profile for ${res.userId} is created`)
+        this.reload('create-profile')        
+      } 
+    })    
   }
 
 
