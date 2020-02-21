@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpServiceService } from 'app/services/http-service.service';
 import { DomSanitizer, SafeUrl, SafeResourceUrl, SafeHtml } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-table-list',
@@ -13,7 +14,7 @@ export class TableListComponent implements OnInit {
   loading = true
   status = ''
   imgURL: SafeResourceUrl
-  constructor(private http: HttpServiceService, private sanitizer: DomSanitizer) { }
+  constructor(private http: HttpServiceService, private sanitizer: DomSanitizer, private router: Router ) { }
 
   ngOnInit() {
     this.getData()
@@ -38,5 +39,22 @@ export class TableListComponent implements OnInit {
   getSantizeUrl(url : string) { 
     return this.sanitizer.bypassSecurityTrustUrl(url); 
 }
+async reload(url: string): Promise<boolean> {
+  await this.router.navigateByUrl('#', { skipLocationChange: true });
+  return this.router.navigateByUrl(url);
+}
+  delete(data){
+    let d = {
+      'imgID': data
+    }
+    console.log(data);    
+    this.loading = true
+    this.http.postMethod(d, 'delete').subscribe((res) => {
+      this.loading = false
+      if(res.res){
+        this.reload('/unidentified') 
+      }
+    })
+  }
 
 }
