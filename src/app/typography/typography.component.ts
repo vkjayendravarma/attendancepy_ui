@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-typography',
@@ -8,13 +9,15 @@ import { Component, OnInit } from '@angular/core';
 export class TypographyComponent implements OnInit {
 
   url = 'https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg'
+  id
 
-  constructor() { 
-    console.log(this.url);
+  constructor(private getRouteData:ActivatedRoute ) {    
     
   }
 
   ngOnInit() {
+    this.id = this.getRouteData.snapshot.paramMap.get('id')
+    console.log(this.id)    
   }
 
 }

@@ -2,6 +2,7 @@ import {  Component,  OnInit, Input, ChangeDetectorRef} from '@angular/core';
 import {  FormControl,  Validators, FormGroup, FormBuilder} from '@angular/forms';
 import { HttpServiceService } from 'app/services/http-service.service';
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,15 +18,23 @@ export class UserProfileComponent implements OnInit {
   userName
   selectedfile
   intruder
+  main = true
+  update_unidentified  =false
+  posting = false
+  update_unidentified_data 
+  
+
+  diasble = false
+  loading = false
 
   override
 
   @Input() current_url 
-  @Input() intruderID
+  @Input() current_id
   
 
   constructor(private fb: FormBuilder,
-    private cd: ChangeDetectorRef, private http: HttpServiceService, private router: Router) {
+    private cd: ChangeDetectorRef, private http: HttpServiceService, private router: Router, private sanitizer: DomSanitizer) {
 
   }
 
@@ -33,18 +42,39 @@ export class UserProfileComponent implements OnInit {
     this.url =  './assets/new_img/person.png'
     this.override = "false"
     if(this.current_url){
+      this.main = false
       this.url = this.current_url
-      this.intruder = this.intruderID
+      this.intruder = this.current_id
+      this.diasble =true 
+      this.loading = true
+
+      let requestData = {
+        'id': this.current_id
+      }
+      
+      this.http.postMethod(requestData, "unidentified").subscribe((res) => {
+        this.loading =false
+        this.update_unidentified =true
+        this.update_unidentified_data =  res.res               
+      })
     }
       
     this.userData = this.fb.group({
         userImg: [''],
         userID: [''],
         userName: [''],
-        override: ['false']
+        override: ['false'],
+        existingID: ['']
     });
 
   }
+
+  getSantizeUrl(url : string) { 
+    return this.sanitizer.bypassSecurityTrustUrl(url); 
+  }
+
+
+
 
 
   onSelectFile(event) { // called each time file input changes
@@ -83,13 +113,17 @@ export class UserProfileComponent implements OnInit {
 
  
   onSubmit(id, name) {
+    this.posting = true
     let formdata = new FormData()
-    formdata.append('userImg', this.userData.get('userImg').value);
+    if(this.userData.get('userImg').value)
+      formdata.append('userImg', this.userData.get('userImg').value);
     formdata.append('userId', id);
     formdata.append('userName', name);
     formdata.append('force_override', this.override)
+    formdata.append('existingID',this.current_id)
     this.http.postMethod(formdata,'newuser').subscribe((res) => {
-      console.log(res);      
+      console.log(res);
+      this.posting = false      
       if(res.err){
         let force_override = window.confirm("UserID already exists. Do you want to override");
         if(force_override){
@@ -99,7 +133,11 @@ export class UserProfileComponent implements OnInit {
       }
       else{
         window.alert(`profile for ${res.userId} is created`)
-        this.reload('create-profile')        
+        if(this.current_id){
+          this.router.navigateByUrl("/unidentified")
+        }
+        else
+          this.reload('create-profile')        
       } 
     })    
   }

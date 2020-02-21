@@ -16,4 +16,8 @@ export class HttpServiceService {
     return this.http.post(`http://localhost:8080/${to}`, userData)
   }
 
+  getMethod(): Observable<any> {
+    return this.http.get('http://localhost:8080/unidentified')
+  }
+
 }
