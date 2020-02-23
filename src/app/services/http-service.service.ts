@@ -13,11 +13,11 @@ export class HttpServiceService {
 
   postMethod(userData:any,to:string): Observable<any> {
     console.log("post init");
-    return this.http.post(`http://localhost:8080/${to}`, userData)
+    return this.http.post(`http://attendancepy.herokuapp.com/${to}`, userData)
   }
 
   getMethod(): Observable<any> {
-    return this.http.get('http://localhost:8080/unidentified')
+    return this.http.get('http://attendancepy.herokuapp.com/unidentified')
   }
 
 }
