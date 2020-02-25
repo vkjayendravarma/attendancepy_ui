@@ -7,17 +7,19 @@ import { Observable } from 'rxjs';
 })
 export class HttpServiceService {
 
+  conf = 'http://192.168.0.168:8080/'
+
   constructor(private http: HttpClient) { 
 
   }
 
   postMethod(userData:any,to:string): Observable<any> {
     console.log("post init");
-    return this.http.post(`https://attendancepy.herokuapp.com/${to}`, userData)
+    return this.http.post(`${this.conf}${to}`, userData)
   }
 
   getMethod(): Observable<any> {
-    return this.http.get('https://attendancepy.herokuapp.com/unidentified')
+    return this.http.get(`${this.conf}unidentified`)
   }
 
 }

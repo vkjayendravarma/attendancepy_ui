@@ -15,25 +15,28 @@
                                       Sl. No.
                                   </th>
                                   <th>
-                                      Name
+                                      Image
                                   </th>
                                   <th>
-                                      Country
+                                      Date
                                   </th>
                                   <th>
-                                      City
+                                      Session
                                   </th>
                                   <th>
-                                      Salary
+                                      Delete
+                                  </th>
+                                  <th>
+                                      Update
                                   </th>
                               </thead>
                               <tbody *ngFor="let record of data, let i=index">
-                                  <td> {{i}} </td>
+                                  <td> {{i + 1}} </td>
                                   <td><img [src]=getSantizeUrl(record.imgUrl) alt="img" class="guest_img"></td>
                                   <td> {{record.date}} </td>
                                   <td> {{record.session}} </td>
-                                  <td><button mat-raised-button (click)="delete(record.id)" class="btn btn-danger pull-right">Delete</button> </td>
-                                  <td><button mat-raised-button [routerLink]="['/unidentified', record.id]" class="btn btn-primary pull-right">Update</button> </td>
+                                  <td><button mat-raised-button (click)="delete(record.id)" class="btn btn-danger">Delete</button> </td>
+                                  <td><button mat-raised-button [routerLink]="['/unidentified', record.id]" class="btn btn-primary">Update</button> </td>
                               </tbody>
                           </table>
                           <mat-spinner mode="indeterminate" *ngIf="loading" diameter="45"></mat-spinner>
