@@ -26,6 +26,7 @@ export class UserProfileComponent implements OnInit {
 
   diasble = false
   loading = false
+  generating = false
 
   override
 
@@ -108,6 +109,14 @@ export class UserProfileComponent implements OnInit {
   async reload(url: string): Promise<boolean> {
     await this.router.navigateByUrl('#', { skipLocationChange: true });
     return this.router.navigateByUrl(url);
+  }
+
+  generateEncodings(){
+    this.generating = true
+    this.http.genEncodings().subscribe((res) => {
+      this.generating = false
+      window.alert(res.res)
+    })
   }
 
 

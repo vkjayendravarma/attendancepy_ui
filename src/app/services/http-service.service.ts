@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class HttpServiceService {
 
-  conf = 'http://192.168.0.168:8080/'
+  conf = 'http://localhost:8080/'
 
   constructor(private http: HttpClient) { 
 
@@ -20,6 +20,10 @@ export class HttpServiceService {
 
   getMethod(): Observable<any> {
     return this.http.get(`${this.conf}unidentified`)
+  }
+
+  genEncodings(): Observable<any>{
+    return this.http.get(`${this.conf}encodings`)
   }
 
 }

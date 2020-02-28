@@ -8,6 +8,14 @@
                       <p class="card-category">Complete profile</p>
                   </div>
                   <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <button mat-raised-button (click)="generateEncodings()" class="btn btn-primary" >Generate Encodings</button>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-spinner mode="indeterminate" *ngIf="generating" diameter="45"></mat-spinner>                               
+                      </div>
+                    </div>
                       <form [formGroup]="userData" (ngSubmit)="onSubmit(userID.value, userName.value)">
                           <div class="row">
                               <div class="col-md-12 custom12">
